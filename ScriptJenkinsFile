@@ -1,0 +1,51 @@
+pipeline {
+    agent any
+    options {
+        timestamps()
+    }
+
+    stages {
+
+        stage("Start Install Libraries") {
+            steps {
+                sh 'python -m pip install -r requirements.txt'
+                echo 'Libraries installed'
+            }
+        }
+
+        stage("Start PyTest") {
+            steps {
+                sh 'pytest test.py --junitxml=results.xml'
+                echo 'Pytest working'
+            }
+        }
+
+        stage("app init...") {
+            steps {
+                sh 'python3 app.py init'
+                echo 'Init working'
+            }
+        }
+        
+        stage("app fill...") {
+            steps {
+                sh 'python3 app.py fill'
+                echo 'Fill working'
+            }
+        }
+        
+        stage("app show Clients...") {
+            steps {
+                sh 'python3 app.py show Clients'
+                echo 'Show working'
+            }
+        }
+        
+        stage("app show Orders...") {
+            steps {
+                sh 'python3 app.py show Orders'
+                echo 'Show Orders working'
+            }
+        }
+    }
+}
