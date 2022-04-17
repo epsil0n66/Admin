@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+    options {
+        timestamps()
+    }
+
+    stages {
+
+            stage("Start Install Libraries") {
+                steps {
+                    sh 'python3 -m pip install -r modules.txt'
+                    echo 'Libraries installed'
+                }
+            }
+        parallel {
+            stage("Test 1") {
+                steps {
+                    sh 'pytest test_lab5_1.py --junitxml=results.xml'
+                    echo 'Test 1 is done'
+                }
+            }
+
+            stage("Test 2") {
+                steps {
+                    sh 'pytest test_lab5_2.py --junitxml=results.xml'
+                    echo 'Test 2 is done'
+                }
+            }
+            
+            stage("Test 3") {
+                steps {
+                    sh 'pytest test_lab5_3.py --junitxml=results.xml'
+                    echo 'Test 3 is done'
+                }
+            }
+
+        }
+    }
+}
